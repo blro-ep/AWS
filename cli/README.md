@@ -2,6 +2,8 @@
 ## create-key-pair 
 aws ec2 create-key-pair --key-name MyKeyPair
 
+[AWS CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/ec2/create-key-pair.html)  
+
 ## describe-key-pairs 
 aws ec2 describe-key-pairs --key-name MyKeyPair
 
@@ -15,9 +17,14 @@ aws ec2 create-security-group --group-name MySecurityGroup --description "My sec
 ## describe-security-groups
 aws ec2 describe-security-groups
 
+[AWS CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-security-groups.html)
+
+### describe-security-groups --filter --query
+aws ec2 describe-security-groups --filter Name="group-name",Values="$SecGroNam" --query "SecurityGroups[*].[GroupName]" --output text
+
 ## delete-security-group
 aws ec2 delete-security-group --group-name MySecurityGroup
-or
+- or
 aws ec2 delete-security-group --group-id sg-xxxxxxx
 
 ### authorize-security-group-ingress
