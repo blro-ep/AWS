@@ -1,4 +1,6 @@
 # AWS Command Line Interface
+## Installing
+[Installing or updating the latest version of the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
 ## key-pair
 
@@ -35,7 +37,7 @@
     --group-id sg-xxxxxxxxxxxxxxxxx \
     --protocol tcp \
     --port 22 \
-    --cidr 0.0.0.0/24
+    --cidr 0.0.0.0/24 \
 
 [AWS CLI Command Reference](https://docs.aws.amazon.com/cli/latest/reference/ec2/authorize-security-group-ingress.html)
 
