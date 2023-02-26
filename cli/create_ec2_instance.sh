@@ -39,13 +39,11 @@ SECURITY_GROUP_ID=$(aws ec2 create-security-group \
 echo "Security group created with id $SECURITY_GROUP_ID"
 
 # add inbound rules
-SECURITY_GROUP_RULE=$(aws ec2 authorize-security-group-ingress \
+aws ec2 authorize-security-group-ingress \
     --group-id $SECURITY_GROUP_ID \
     --protocol tcp \
     --port 22 \
     --cidr 0.0.0.0/0 \
-    --output text) && \
-echo "Security group rule created $SECURITY_GROUP_RULE"
 
 # create ec2 instance
 INSTANCE_ID=$(aws ec2 run-instances \
@@ -63,5 +61,6 @@ echo "Instance launched with id $INSTANCE_ID"
 INSTANCE_IP=$(aws ec2 describe-instances \
     --instance-ids $INSTANCE_ID \
     --query "Reservations[0].Instances[0].PublicIpAddress" --output text) && \
-echo "EC2 instance $INSTANCE_NAME IP: $INSTANCE_IP"
+echo -e "EC2 instance $INSTANCE_NAME IP: $INSTANCE_IP \n \
+      ssh -i $KEY_PATH_LOCAL$KEY_PAIR_NAME.pem ubuntu@$INSTANCE_IP" 
 
