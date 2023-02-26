@@ -57,7 +57,7 @@ if [ -f $KEY_PATH_LOCAL$KEY_PAIR_NAME.pem ];
         rm -f $KEY_PATH_LOCAL$KEY_PAIR_NAME.pem
 fi
 
-echo -e "\nWait 40 seconds to delet security group"
+echo -e "\nWait 40 seconds to delete security group"
 BAR='#############################################'
 for i in {1..45}; do
     echo -ne "\r${BAR:0:$i}"
