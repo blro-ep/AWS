@@ -13,10 +13,10 @@ SECURITY_GROUP_DESCRIPTION="My security group"
 # check if the key already exist local
 if [ -f $KEY_PATH_LOCAL$KEY_PAIR_NAME.pem ];
     then
-        echo "Yes, existe."
+        echo "Key already exist, it will be deleted."
         rm -f $KEY_PATH_LOCAL$KEY_PAIR_NAME.pem
     else
-    echo "No, no existe"
+    echo "The KeyPair will be created."
 fi
 
 # create key-pair and save the privateKey local
