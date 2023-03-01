@@ -10,6 +10,49 @@ KEY_PATH_LOCAL="/home/outside/.ssh/"
 SECURITY_GROUP_NAME="my-security-group"
 SECURITY_GROUP_DESCRIPTION="My security group"
 
+# create vpc
+VPC_ID=$(aws ec2 create-vpc \ 
+    --region $AWS_REGION \
+    --cidr-block 10.0.0.0/24 \
+    --query Vpc.VpcId \
+    --output text) && \
+echo "- vpc added successfully $VPC_ID"
+
+# crate subnet
+SUBNET_ID=$(aws ec2 create-subnet \
+    --vpc-id vpc-2f09a348 \
+    --cidr-block 10.0.1.0/28) && \
+echo "- subnet addes successfully $SUBNET_ID"
+
+# create gateway
+GATEWAY_ID=$(aws ec2 create-internet-gateway \
+    --query InternetGateway.InternetGatewayId \
+    --output text) && \
+echo "- gateway addes successfully $GATEWAY_ID"
+
+# add gateway to vpc
+aws ec2 attach-internet-gateway \
+    --vpc-id $VPC_ID \
+    --internet-gateway-id $GATEWAY_ID
+
+# create route table
+ROUTE_TABLE_ID=$(aws ec2 create-route-table \
+    --vpc-id vpc-2f09a348 \
+    --query RouteTable.RouteTableId \
+    --output text) && \
+echo "- added route table successfully $ROUTE_TABLE_ID"
+
+# add a route to route table
+aws ec2 create-route \
+    --route-table-id $ROUTE_TABLE_ID \
+    --destination-cidr-block 0.0.0.0/0 \
+    --gateway-id $GATEWAY_ID
+
+# check route table
+aws ec2 describe-route-tables \ 
+    --route-table-id $ROUTE_TABLE_ID
+
+
 # check if the key already exist local
 if [ -f $KEY_PATH_LOCAL$KEY_PAIR_NAME.pem ];
     then
