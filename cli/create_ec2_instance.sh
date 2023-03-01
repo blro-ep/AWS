@@ -11,17 +11,18 @@ SECURITY_GROUP_NAME="my-security-group"
 SECURITY_GROUP_DESCRIPTION="My security group"
 
 # create vpc
-VPC_ID=$(aws ec2 create-vpc \ 
-    --region $AWS_REGION \
-    --cidr-block 10.0.0.0/24 \
-    --query Vpc.VpcId \
+VPC_ID=$(aws ec2 create-vpc \
+    --cidr-block 10.0.0.0/16 \
+    --query 'Vpc.VpcId' \
     --output text) && \
 echo "- vpc added successfully $VPC_ID"
 
 # crate subnet
 SUBNET_ID=$(aws ec2 create-subnet \
-    --vpc-id vpc-2f09a348 \
-    --cidr-block 10.0.1.0/28) && \
+    --vpc-id $VPC_ID \
+    --cidr-block 10.0.1.0/24 \
+    --query 'Subnet.SubnetId' \
+    --output text) && \
 echo "- subnet addes successfully $SUBNET_ID"
 
 # create gateway
@@ -47,6 +48,13 @@ aws ec2 create-route \
     --route-table-id $ROUTE_TABLE_ID \
     --destination-cidr-block 0.0.0.0/0 \
     --gateway-id $GATEWAY_ID
+
+echo "Wait 5 seconds"
+BAR='#####'
+for i in {1..5}; do
+    echo -ne "\r${BAR:0:$i}"
+    sleep 1                 
+done
 
 # check route table
 aws ec2 describe-route-tables \ 
