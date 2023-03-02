@@ -32,10 +32,13 @@ ROUTE_TABLE_ID=$(aws ec2 create-route-table \
 echo "- added route table successfully $ROUTE_TABLE_ID"
 
 # add a route to route table
-aws ec2 create-route \
+ROUTE_ID=$(aws ec2 create-route \
     --route-table-id $ROUTE_TABLE_ID \
     --destination-cidr-block 0.0.0.0/0 \
-    --gateway-id $GATEWAY_ID
+    --gateway-id $GATEWAY_ID \
+    --output text) && \
+echo "- added route to table $ROUTE_ID"
+    
 
 echo "Wait 5 seconds"
 BAR='#####'
@@ -43,4 +46,4 @@ for i in {1..5}; do
     echo -ne "\r${BAR:0:$i}"
     sleep 1                 
 done
-echo "\n"
+echo -e "\n"
