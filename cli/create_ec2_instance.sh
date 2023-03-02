@@ -38,7 +38,7 @@ aws ec2 attach-internet-gateway \
 
 # create route table
 ROUTE_TABLE_ID=$(aws ec2 create-route-table \
-    --vpc-id vpc-2f09a348 \
+    --vpc-id $VPC_ID \
     --query RouteTable.RouteTableId \
     --output text) && \
 echo "- added route table successfully $ROUTE_TABLE_ID"
